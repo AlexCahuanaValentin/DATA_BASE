@@ -12,8 +12,8 @@ public class Listar {
             List<Producto> lista = service.getAll();
             System.out.println("Filas: " + lista.size());
             for (Producto rec : lista) {
-                System.out.println(rec.getId() + "|" + rec.getNombre() + "|" + rec.getDescrip() + "|"
-                        + rec.getPuntos());
+                System.out.println(rec.getId() + "|" + rec.getName() + "|" + rec.getDescription() + "|"
+                        + rec.getPoints() + "|" + rec.getStock() + "|" + rec.getType() + "|" + rec.getBrand());
             }
         } catch (Exception e) {
             System.err.println("Error al mostrar la lista de productos: " + e.getMessage());

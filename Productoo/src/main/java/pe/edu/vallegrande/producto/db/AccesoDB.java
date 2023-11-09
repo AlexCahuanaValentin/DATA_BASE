@@ -12,7 +12,7 @@ public class AccesoDB {
 	public static Connection getConnection() throws SQLException {
 		Connection cn = null;
 		String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String urlDB = "jdbc:sqlserver://localhost:1433;databaseName=db_PUNTOS;encrypt=true;TrustServerCertificate=True;";
+        String urlDB = "jdbc:sqlserver://localhost:1433;databaseName=db_puntos;encrypt=true;TrustServerCertificate=True;";
 		String user="sa";
 		String pass = "admin1";
 		try {

@@ -45,10 +45,13 @@ public class ProductoController extends HttpServlet {
 		Integer id = Integer.parseInt(idStr);
 
 		bean.setId(Integer.parseInt(request.getParameter("id")));
-		bean.setNombre(request.getParameter("nombre"));
-		bean.setDescrip(request.getParameter("descrip"));
-		bean.setPuntos(request.getParameter("puntos"));
-		bean.setEstado(request.getParameter("estado"));
+		bean.setName(request.getParameter("name"));
+		bean.setDescription(request.getParameter("description"));
+		bean.setPoints(request.getParameter("points"));
+		bean.setStock(Integer.parseInt(request.getParameter("stock")));
+		bean.setType(request.getParameter("type"));
+		bean.setBrand(request.getParameter("brand"));
+		bean.setState(request.getParameter("state"));
 		// Proceso
 		try {
 			switch (accion) {
@@ -72,12 +75,12 @@ public class ProductoController extends HttpServlet {
 
 	private void buscar(HttpServletRequest request, HttpServletResponse response) {
 		// Datos
-		String nombre = request.getParameter("nombre");
-		String descrip = request.getParameter("descrip");
+		String name = request.getParameter("name");
+		String type = request.getParameter("type");
 		// Proceso
 		Producto model = new Producto();
-		model.setNombre(nombre);
-		model.setDescrip(descrip);
+		model.setName(name);
+		model.setType(type);
 		List<Producto> lista = clienteService.get(model);
 		// Convertir lista en JSON
 		Gson gson = new Gson();

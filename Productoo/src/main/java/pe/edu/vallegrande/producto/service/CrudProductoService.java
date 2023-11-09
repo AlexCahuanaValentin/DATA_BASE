@@ -19,15 +19,18 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 		Producto rec = null;
 		try {
 			cn = AccesoDB.getConnection();
-			String sql = "SELECT id, nombre, descrip, puntos FROM PRODUC WHERE estado='A'";
+			String sql = "SELECT id, name, description, points, stock, type, brand FROM product WHERE state='A'";
 			PreparedStatement pstm = cn.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				rec = new Producto();
 				rec.setId(rs.getInt("id"));
-				rec.setNombre(rs.getString("nombre"));
-				rec.setDescrip(rs.getString("descrip"));
-				rec.setPuntos(rs.getString("puntos"));
+				rec.setName(rs.getString("name"));
+				rec.setDescription(rs.getString("description"));
+				rec.setPoints(rs.getString("points"));
+				rec.setStock(rs.getInt("stock"));
+				rec.setType(rs.getString("type"));
+				rec.setBrand(rs.getString("brand"));
 				
 				lista.add(rec);
 			}
@@ -54,17 +57,20 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 		// proceso
 		try {
 			cn = AccesoDB.getConnection();
-			String sql = "select id, nombre, descrip, puntos from PRODUC ";
-			sql += "where estado = 'A' and id = ?";
+			String sql = "select id, name, description, points, stock, type, brand from product ";
+			sql += "where state = 'A' and id = ?";
 			PreparedStatement pstm = cn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next()) {
 				bean = new Producto();
 				bean.setId(rs.getInt("id"));
-				bean.setNombre(rs.getString("nombre"));
-				bean.setDescrip(rs.getString("descrip"));
-				bean.setPuntos(rs.getString("puntos"));
+				bean.setName(rs.getString("name"));
+				bean.setDescription(rs.getString("description"));
+				bean.setPoints(rs.getString("points"));
+				bean.setStock(rs.getInt("stock"));
+				bean.setType(rs.getString("type"));
+				bean.setBrand(rs.getString("brand"));
 			}
 			rs.close();
 			pstm.close();
@@ -84,26 +90,29 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 	@Override
 	public List<Producto> get(Producto bean) {
 		// preparando los datos
-		String nombre = bean.getNombre() != null ? "%" + bean.getNombre().trim() + "%" : "%%";
-		String descrip = bean.getDescrip() != null ? "%" + bean.getDescrip().trim() + "%" : "%%";
+		String name = bean.getName() != null ? "%" + bean.getName().trim() + "%" : "%%";
+		String type = bean.getType() != null ? "%" + bean.getType().trim() + "%" : "%%";
 		List<Producto> lista = new ArrayList<>();
 		Connection cn = null;
 		Producto rec = null;
 		// proceso
 		try {
 			cn = AccesoDB.getConnection();
-			String sql = "select id, nombre, descrip, puntos from PRODUC ";
-			sql += "where estado = 'A' and nombre like ? and descrip like ?";
+			String sql = "select id, name, description, points, stock, type, brand from product ";
+			sql += "where state = 'A' and name like ? and type like ?";
 			PreparedStatement pstm = cn.prepareStatement(sql);
-			pstm.setString(1, nombre);
-			pstm.setString(2, descrip);
+			pstm.setString(1, name);
+			pstm.setString(2, type);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				rec = new Producto();
 				rec.setId(rs.getInt("id"));
-				rec.setNombre(rs.getString("nombre"));
-				rec.setDescrip(rs.getString("descrip"));
-				rec.setPuntos(rs.getString("puntos"));
+				rec.setName(rs.getString("name"));
+				rec.setDescription(rs.getString("description"));
+				rec.setPoints(rs.getString("points"));
+				rec.setStock(rs.getInt("stock"));
+				rec.setType(rs.getString("type"));
+				rec.setBrand(rs.getString("brand"));
 				lista.add(rec);
 			}
 			rs.close();
@@ -135,12 +144,15 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 			cn = AccesoDB.getConnection();
 			cn.setAutoCommit(false);
 			// Insertar registro
-			sql = "INSERT INTO PRODUC(id, nombre, descrip, puntos)VALUES(?,?,?,?)";
+			sql = "INSERT INTO product(id, name, description, points, stock, type, brand)VALUES(?,?,?,?,?,?,?)";
 			pstm = cn.prepareStatement(sql);
 			pstm.setString(1, bean.getId() + "");
-			pstm.setString(2, bean.getNombre());
-			pstm.setString(3, bean.getDescrip());
-			pstm.setString(4, bean.getPuntos());
+			pstm.setString(2, bean.getName());
+			pstm.setString(3, bean.getDescription());
+			pstm.setString(4, bean.getPoints());
+			pstm.setInt(5, bean.getStock());
+			pstm.setString(6, bean.getType());
+			pstm.setString(7, bean.getBrand());
 			pstm.executeUpdate();
 			// obteniendo el id
 			sql = "SELECT @@IDENTITY id";
@@ -181,12 +193,15 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 			cn = AccesoDB.getConnection();
 			cn.setAutoCommit(false);
 			// Actualizar registro
-			sql = "UPDATE PRODUC SET nombre = ?, descrip = ?, puntos = ? WHERE id = ?";
+			sql = "UPDATE product SET name = ?, description = ?, points = ?, stock = ?, type = ?, brand = ? WHERE id = ?";
 			pstm = cn.prepareStatement(sql);
-			pstm.setString(1, bean.getNombre());
-			pstm.setString(2, bean.getDescrip());
-			pstm.setString(3, bean.getPuntos());
-			pstm.setInt(4, bean.getId());
+			pstm.setString(1, bean.getName());
+			pstm.setString(2, bean.getDescription());
+			pstm.setString(3, bean.getPoints());
+			pstm.setInt(4, bean.getStock());
+			pstm.setString(5, bean.getType());
+			pstm.setString(6, bean.getBrand());
+			pstm.setInt(7, bean.getId());
 			int filas = pstm.executeUpdate();
 			pstm.close();
 			if (filas == 0) {
@@ -225,7 +240,7 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 			cn = AccesoDB.getConnection();
 			cn.setAutoCommit(false);
 			// Insertar registro
-			sql = "UPDATE PRODUC SET estado = 'I' WHERE id =?";
+			sql = "UPDATE product SET state = 'I' WHERE id =?";
 			pstm = cn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			filas = pstm.executeUpdate();
@@ -259,17 +274,20 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 		Producto rec = null;
 		try {
 			cn = AccesoDB.getConnection();
-			String sql = "SELECT id, nombre, descrip, puntos, estado "
-					+ "FROM PRODUC WHERE estado='I'";
+			String sql = "SELECT id, name, description, points, stock, type, brand, state "
+					+ "FROM product WHERE state='I'";
 			PreparedStatement pstm = cn.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				rec = new Producto();
 				rec.setId(rs.getInt("id"));
-				rec.setNombre(rs.getString("nombre"));
-				rec.setDescrip(rs.getString("descrip"));
-				rec.setPuntos(rs.getString("puntos"));
-				rec.setEstado(rs.getString("estado"));
+				rec.setName(rs.getString("name"));
+				rec.setDescription(rs.getString("description"));
+				rec.setPoints(rs.getString("points"));
+				rec.setStock(rs.getInt("stock"));
+				rec.setType(rs.getString("type"));
+				rec.setBrand(rs.getString("brand"));
+				rec.setState(rs.getString("state"));
 				lista.add(rec);
 			}
 			rs.close();
@@ -301,7 +319,7 @@ public class CrudProductoService implements CrudServiceSpec<Producto> {
 			cn = AccesoDB.getConnection();
 			cn.setAutoCommit(false);
 			// Insertar registro
-			sql = "UPDATE PRODUC SET estado = 'A' WHERE id =?";
+			sql = "UPDATE product SET state = 'A' WHERE id =?";
 			pstm = cn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			filas = pstm.executeUpdate();

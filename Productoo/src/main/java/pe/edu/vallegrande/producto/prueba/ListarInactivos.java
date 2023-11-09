@@ -12,8 +12,8 @@ public class ListarInactivos {
 			List<Producto> lista = service.getAllInactive();
 			System.out.println("Filas: "+ lista.size());
 			for (Producto rec : lista) {
-				System.out.println(rec.getId()+"|"+rec.getNombre()+"|"+
-						rec.getDescrip()+"|"+rec.getPuntos());
+				System.out.println(rec.getId()+"|"+rec.getName()+"|"+
+						rec.getDescription()+"|"+rec.getBrand());
 			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());

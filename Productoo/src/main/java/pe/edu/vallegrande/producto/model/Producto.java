@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 
 public class Producto {
 	private Integer id;
-	private String nombre;
-	private String descrip;
-	private String puntos;
-	private String estado;
+	private String name;
+	private String description;
+	private String points;
+	private Integer stock;
+	private String type;
+	private String brand;
+	private String state;
 }

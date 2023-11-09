@@ -13,7 +13,7 @@ public class prueba03 {
 			CrudProductoService service = new CrudProductoService();
 			Producto rec = service.getById(id);
 			// Reporte
-			System.out.println(rec.getNombre() + " - " + rec.getDescrip());
+			System.out.println(rec.getName() + " - " + rec.getDescription());
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
